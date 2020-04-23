@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
+    <title>网站流量状态</title>
+    <style>
+        .breadcrumb {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            padding: .75rem 1rem;
+            margin-top: 1em;
+            margin-bottom: 1rem;
+            list-style: none;
+            background-color: #e9ecef;
+            border-radius: .25rem
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark"><a class="navbar-brand" href="#">网站流量状态</a></nav>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">欢迎访问</h1>
+            <p class="lead">
+                页面将显示 <span class="badge badge-success">狂儒[kuang.ru]</span><br><span id="since"></span>&nbsp;至<span id="until">现在</span>&nbsp;的访问状态
+            </p>
+            <p id="upd">
+                数据将在 30 秒 后更新
+            </p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                总流量
+                            </div>
+                            <div class="card-body">
+                                <blockquote class="blockquote mb-0">
+                                    <p id="tbu">0 B</p>                                 
+                                    <footer class="blockquote-footer">Total Data Served</footer>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                请求数
+                            </div>
+                            <div class="card-body">
+                                <blockquote class="blockquote mb-0">
+                                    <p id="trs">
+                                        0
+                                    </p>
+                                    <footer class="blockquote-footer">Total Requests</footer>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                访客数
+                            </div>
+                            <div class="card-body">
+                                <blockquote class="blockquote mb-0">
+                                    <p id="chr">
+                                        0
+                                    </p>
+                                    <footer class="blockquote-footer">Unique Visitors</footer>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page">请求响应状态</li>
+                    </ol>
+                </nav>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                    状态码
+                                </th>
+                                <th scope="col">
+                                    请求数
+                                </th>                                
+                            </tr>
+                        </thead>
+                        <tbody id="response">
+                        </tbody>
+                    </table>
+                </div>                        
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page">各国家、地区 流量、请求数 详情</li>
+                    </ol>
+                </nav>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                    #
+                                </th>
+                                <th scope="col">
+                                    地区
+                                </th>
+                                <th scope="col">
+                                    流量
+                                </th>
+                                <th scope="col">
+                                    请求数
+                                </th>                                
+                            </tr>
+                        </thead>
+                        <tbody id="statb">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+        /*
+ * 加密工具已经升级了一个版本，目前为 sojson.v5 ，主要加强了算法，以及防破解【绝对不可逆】配置，耶稣也无法100%还原，我说的。;
+ * 已经打算把这个工具基础功能一直免费下去。还希望支持我。
+ * 另外 sojson.v5 已经强制加入校验，注释可以去掉，但是 sojson.v5 不能去掉（如果你开通了VIP，可以手动去掉），其他都没有任何绑定。
+ * 誓死不会加入任何后门，sojson JS 加密的使命就是为了保护你们的Javascript 。
+ * 警告：如果您恶意去掉 sojson.v5 那么我们将不会保护您的JavaScript代码。请遵守规则
+ * 新版本: https://www.jsjiami.com/ 支持批量加密，支持大文件加密，拥有更多加密。 */
+ 
+;var encode_version = 'sojson.v5', cmykd = '__0x7dae0',  __0x7dae0=['wrfChEsywoY=','wpTCnADDtTE=','wrgOw5vCtHM=','WcOdwpl/wo5m','w5k/wpTCuBA=','w7I4RBBv','w6DCrivCumA=','LMOQw6jCs8K0YsOWw47Dpw==','54uI5pyh5Y63776gfS7kvJrlrobmnK/lv7vnq6Pvvbjovojor6TmlafmjLPmi6/ku5TnmLjltJHkvZQ=','METCgg==','w7zDh25j','5pSK5o+K5bCY5Z66Yw==','6Iyw5Y+v5aeE6Larw7k=','w4TCqhfCp3s=','wprCpDjDrTw=','w6LCocKDLA==','wrjDqsO5wrfDrQ==','NiFWw7Ut','woo4IsODw6w=','wpIzMMOCw7o=','wo7npK5M5ZKd5pmW5pag','w4fCrsKWwq7Ciw==','w4VKZ1QL','w7HDusOUw4Ms','PsOfwoAiUQ==','w6E5ZgRW','woEIw6o=','wp9Tw50=','w7fCllM=','5Yuf6Zuw54uF5p235Y6Z77yvwonDtOS+jOWuveadt+W/qeeqhw==','w53CkwbDoMONflRCaA==','wpbCgBjDjDI=','N8KAw7Y+SA==','EsOUwrbCu8OK','w67Cr2krNw==','w4Mbw7/Dv8O0','wqXDh8OdMg8=','woQPw5jCpXw=','w4bCmT/DpMO7','wqTCqEMfwpo=','G8Oew5k=','NcOxwobCjcOHwptywpPDrg==','I8OEw5BoQg==','w57DvQXCn8OR','PcOZw7JBVw==','5YqM6Zud54ij5p6h5Y2977+Iw5fCluS8ouWvu+aeiOW+s+errw==','wpDCm8O4','LMOHw6bCv1g=','wpnCuz7DmzI=','HcOow45DXQ==','w6bCusKJ','w6xiJw==','GG3CvMK/Bg==','d1wrw7rCug==','P8Oiw6hJaMOUPxzDjcOVwpU=','wrpNw7s8VMKCBRdaw5jDsQTCmsKAw4rClcO1YgDCrMO0','wrNJw78gTsObS0xSw4fDtgXCm8KGw4TClcKpLxrCuMKpwpPDnMOCZcOeZwBK','IMOMwpY=','wp7CuVQm','CsOGw4lj','w63DkMODw5cL','G3bCg8K9IQ==','XMOywpjDucOC','w4xDSnYv','w63CsMKaFGUvwrM=','RGo+w6vCpUHDsxc=','w6dAE8O4WQ==','OcOsw5ZfYsOa','BUMyd8OI','MsOQwoU=','fMOMw6vCrsK4aQ==','wo3CiB7DoA==','U8OxwrpcZAY=','w6PCnWpjw6Z4w6vCjMOvCw==','JcOtwpY=','wofDhcOPwo7Djw==','w7sMSxhW','wpDCqDLDpik=','GcO9w47CjcK3','bX7DqDQ=','w4LDmCnDtMOe','w6h5LcOA','JMKBL1gD','wqNncsKkWA==','CyTDoMK6Kw==','wpbCs08twrFMwoDCkmLDgsK8MT5d','w7sIw63DvMOE','DTHDj8Kv','w7bCngPCgEE=','w4vCoUAPCFXCusO8w6rDk8Oqw5nCtQjCm2ow','wpFLbcKC','PcK8DEM=','WsOAwrLDpw==','OMOPf8KxdA==','w43DrMO1aBZb','wqvClsO4BHVOw73DoGMUaWLCljZSw7XCuTXCssOJbT4pw4xuwrzDhh7CqytLdzU=','woMuBsOEw6k=','w6jDkcOfwpjDs0I=','w5IpwrHCpQ==','UcObwqrDpcO6D8O6','wp3CpRnDuhPDgsO0w6LCgjR8IB5MwroFwoE=','d8Kiw4xfM8KLIgvCmg==','JxBww540','TF15w5g7CBPDjg==','wpDClh/DqcK0w7jCksKRSl8=','wqfDjcOM','HcOqwpAhbQ==','w7vDnMObJCk=','w6tcwqLDisK6','w4HDiMOTw5Iu','ExtDw60e','w64Ww7soGcKEXlwF','w7JowrHDgsK+'];(function(_0x1219af,_0x2e9133){var _0x1abb16=function(_0x1e0716){while(--_0x1e0716){_0x1219af['push'](_0x1219af['shift']());}};_0x1abb16(++_0x2e9133);}(__0x7dae0,0x9f));var _0x468f=function(_0x52823f,_0x5bebc8){_0x52823f=_0x52823f-0x0;var _0xf57a52=__0x7dae0[_0x52823f];if(_0x468f['initialized']===undefined){(function(){var _0x3446f1=typeof window!=='undefined'?window:typeof process==='object'&&typeof require==='function'&&typeof global==='object'?global:this;var _0xe18600='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';_0x3446f1['atob']||(_0x3446f1['atob']=function(_0x5c7cdb){var _0x566a49=String(_0x5c7cdb)['replace'](/=+$/,'');for(var _0x49b902=0x0,_0x33cd71,_0xe000d6,_0x233fcd=0x0,_0xdce707='';_0xe000d6=_0x566a49['charAt'](_0x233fcd++);~_0xe000d6&&(_0x33cd71=_0x49b902%0x4?_0x33cd71*0x40+_0xe000d6:_0xe000d6,_0x49b902++%0x4)?_0xdce707+=String['fromCharCode'](0xff&_0x33cd71>>(-0x2*_0x49b902&0x6)):0x0){_0xe000d6=_0xe18600['indexOf'](_0xe000d6);}return _0xdce707;});}());var _0x1770c0=function(_0x19e378,_0x2389fb){var _0x575c58=[],_0xc607b9=0x0,_0x4c26d7,_0xe38d2b='',_0x57dd76='';_0x19e378=atob(_0x19e378);for(var _0x271fa5=0x0,_0x4970eb=_0x19e378['length'];_0x271fa5<_0x4970eb;_0x271fa5++){_0x57dd76+='%'+('00'+_0x19e378['charCodeAt'](_0x271fa5)['toString'](0x10))['slice'](-0x2);}_0x19e378=decodeURIComponent(_0x57dd76);for(var _0x2e2dd9=0x0;_0x2e2dd9<0x100;_0x2e2dd9++){_0x575c58[_0x2e2dd9]=_0x2e2dd9;}for(_0x2e2dd9=0x0;_0x2e2dd9<0x100;_0x2e2dd9++){_0xc607b9=(_0xc607b9+_0x575c58[_0x2e2dd9]+_0x2389fb['charCodeAt'](_0x2e2dd9%_0x2389fb['length']))%0x100;_0x4c26d7=_0x575c58[_0x2e2dd9];_0x575c58[_0x2e2dd9]=_0x575c58[_0xc607b9];_0x575c58[_0xc607b9]=_0x4c26d7;}_0x2e2dd9=0x0;_0xc607b9=0x0;for(var _0x592c6b=0x0;_0x592c6b<_0x19e378['length'];_0x592c6b++){_0x2e2dd9=(_0x2e2dd9+0x1)%0x100;_0xc607b9=(_0xc607b9+_0x575c58[_0x2e2dd9])%0x100;_0x4c26d7=_0x575c58[_0x2e2dd9];_0x575c58[_0x2e2dd9]=_0x575c58[_0xc607b9];_0x575c58[_0xc607b9]=_0x4c26d7;_0xe38d2b+=String['fromCharCode'](_0x19e378['charCodeAt'](_0x592c6b)^_0x575c58[(_0x575c58[_0x2e2dd9]+_0x575c58[_0xc607b9])%0x100]);}return _0xe38d2b;};_0x468f['rc4']=_0x1770c0;_0x468f['data']={};_0x468f['initialized']=!![];}var _0x4e0f0c=_0x468f['data'][_0x52823f];if(_0x4e0f0c===undefined){if(_0x468f['once']===undefined){_0x468f['once']=!![];}_0xf57a52=_0x468f['rc4'](_0xf57a52,_0x5bebc8);_0x468f['data'][_0x52823f]=_0xf57a52;}else{_0xf57a52=_0x4e0f0c;}return _0xf57a52;};function bytesToSize(_0x5754ed){var _0x489454={'oWtTY':function _0x43cf21(_0x2f03e8,_0x525bb4){return _0x2f03e8===_0x525bb4;},'grNDO':_0x468f('0x0','&!K^'),'VevxP':function _0x4370e8(_0x43822f,_0x53d9bf){return _0x43822f/_0x53d9bf;},'lcjKW':function _0x203d3e(_0x5ab2a8,_0x53ff33){return _0x5ab2a8+_0x53ff33;},'GYFem':function _0x5298d4(_0x44c465,_0x2f4ad4){return _0x44c465+_0x2f4ad4;},'mwbsn':function _0x17b972(_0x5abbcd,_0x2548d0){return _0x5abbcd/_0x2548d0;}};if(_0x489454[_0x468f('0x1','EPpT')](0x0,_0x5754ed))return _0x489454[_0x468f('0x2','cU9N')];var _0x37bb62=Math['floor'](_0x489454[_0x468f('0x3','ELQX')](Math[_0x468f('0x4','#tKz')](_0x5754ed),Math[_0x468f('0x5','Gw4x')](0x3e8)));return _0x489454[_0x468f('0x6','(ibS')](_0x489454[_0x468f('0x7','!wA[')](_0x489454['mwbsn'](_0x5754ed,Math['pow'](0x3e8,_0x37bb62))[_0x468f('0x8','ELQX')](0x3),'\x20'),['B','KB','MB','GB','TB','PB','EB','ZB','YB'][_0x37bb62]);}function updataData(){var _0x18a172={'MkynA':_0x468f('0x9','t]qD'),'oxUIp':_0x468f('0xa','t]qD'),'wKIdd':function _0x4a31d0(_0x27691b,_0x4565d9){return _0x27691b(_0x4565d9);},'nFGrL':function _0x3bdfce(_0x81e7fe,_0x478edc){return _0x81e7fe+_0x478edc;},'lMNeE':'huai.pub_','pfGLL':function _0x55bd6f(_0x458f21,_0x1a7aeb){return _0x458f21/_0x1a7aeb;},'gMSTN':_0x468f('0xb','!R1B'),'NLnEG':_0x468f('0xc','59t[')};$[_0x468f('0xd','czAF')]({'url':_0x18a172[_0x468f('0xe','&!K^')],'headers':{'Content-Type':_0x18a172[_0x468f('0xf','(ibS')],'Authorization':_0x18a172['wKIdd'](btoa,_0x18a172[_0x468f('0x10','dkk1')](_0x18a172['lMNeE'],Math['round'](_0x18a172[_0x468f('0x11','1[W@')](new Date()[_0x468f('0x12','#tKz')](),0x3e8))[_0x468f('0x13','!wA[')]()))},'type':_0x18a172[_0x468f('0x14','Gw4x')],'data':{'RnD':Math[_0x468f('0x15','ELQX')]()},'dataType':_0x18a172[_0x468f('0x16','F1(b')],'success':function(_0x17ea7a){var _0x269783={'LgdwH':function _0x1269c8(_0x506485,_0x4e2b75){return _0x506485===_0x4e2b75;},'smZdL':_0x468f('0x17','1IXh'),'naByT':function _0x278a3b(_0x372b5e,_0x32e465){return _0x372b5e(_0x32e465);},'FBLMl':_0x468f('0x18','w]Dp'),'DKpvZ':'#tbu','lSJjp':function _0x2fa657(_0x572def,_0x48b4dc){return _0x572def+_0x48b4dc;},'ZXrJs':function _0x343012(_0x563e4d,_0x247079){return _0x563e4d+_0x247079;},'ZWLMi':'\x20\x20(Hit\x20','NGXyj':_0x468f('0x19','K^r6'),'twLyc':'#chr','uypuW':'#response','CVTBH':function _0x4bafab(_0x29ac3f,_0xab9658){return _0x29ac3f+_0xab9658;},'BFMjN':function _0x272937(_0x12bbe0,_0x9703e4){return _0x12bbe0+_0x9703e4;},'zRDFq':function _0x5ed53d(_0x435246,_0x43d419){return _0x435246+_0x43d419;},'yXBtF':_0x468f('0x1a','!R1B'),'lLLBc':_0x468f('0x1b','yMR@'),'dQDHY':_0x468f('0x1c','1IXh'),'cbHqZ':function _0x4dfbb0(_0x47a96d,_0x5ed132){return _0x47a96d!==_0x5ed132;},'zYUlu':'undefined'};if(_0x269783[_0x468f('0x1d','65T(')]('rOg',_0x269783[_0x468f('0x1e','sKxT')])){_0x269783[_0x468f('0x1f','cU9N')]($,_0x269783[_0x468f('0x20','w]Dp')])[_0x468f('0x21','V*UL')](_0x17ea7a['since']);_0x269783[_0x468f('0x22','UgUp')]($,_0x269783['DKpvZ'])[_0x468f('0x23','Gw4x')](_0x269783[_0x468f('0x24','o$v7')](_0x269783[_0x468f('0x25','JWwY')](_0x269783[_0x468f('0x26','68xR')](bytesToSize,_0x17ea7a['bytes'])+_0x269783['ZWLMi'],_0x17ea7a[_0x468f('0x27','59t[')]),')'));_0x269783['naByT']($,_0x269783[_0x468f('0x28','7UH(')])[_0x468f('0x29','68xR')](_0x17ea7a['requests']+_0x269783[_0x468f('0x2a','mF#y')]+_0x17ea7a[_0x468f('0x2b','bCJe')]+')');$(_0x269783['twLyc'])[_0x468f('0x2c','JWwY')](_0x17ea7a[_0x468f('0x2d','o$v7')]);$(_0x269783['uypuW'])[_0x468f('0x2e','dkk1')](_0x269783[_0x468f('0x2f','r%*g')](_0x269783['CVTBH'](_0x269783['BFMjN'](_0x269783['zRDFq']('<tr><td>2xx3xx</td><td>',_0x17ea7a['response'][_0x468f('0x30','%f1U')]),_0x468f('0x31','0v[x')),_0x17ea7a['response'][_0x269783[_0x468f('0x32','xirT')]]),_0x269783['lLLBc'])),_0x269783['naByT']($,_0x468f('0x33','65T('))[_0x468f('0x34','f&f)')](''),_0x17ea7a[_0x468f('0x35','dkk1')]['forEach'](function(_0x544f0d,_0x49a0cf){var _0x2aba55={'zcRHq':function _0x2263fd(_0x402262,_0x20bee1){return _0x402262+_0x20bee1;},'leWDb':function _0x276fc8(_0x2b93d3,_0xff1f5c){return _0x2b93d3+_0xff1f5c;},'asikd':function _0x2a6e62(_0x223adf,_0x193770){return _0x223adf+_0x193770;},'VrGVY':function _0x293791(_0x4fe396,_0x2d2447){return _0x4fe396+_0x2d2447;},'uQDLf':_0x468f('0x36','cU9N'),'odPkj':_0x468f('0x37','ELQX'),'CNpzD':function _0x578ec7(_0x334efd,_0x65f4cc){return _0x334efd(_0x65f4cc);},'FlqqI':_0x468f('0x38','JzFK'),'Dkgoy':_0x468f('0x39','$bEi'),'jUpjL':_0x468f('0x3a','UgUp'),'TdPfV':'#statb'};console[_0x468f('0x3b','65T(')](_0x544f0d);str1=_0x2aba55[_0x468f('0x3c','!R1B')](_0x2aba55['leWDb'](_0x2aba55[_0x468f('0x3d','0v[x')](_0x2aba55[_0x468f('0x3e',']fV*')](_0x2aba55[_0x468f('0x3f','&!K^')](_0x2aba55['VrGVY'](_0x2aba55[_0x468f('0x40','JzFK')]('<tr><td>',_0x49a0cf),_0x468f('0x41','t]qD')),_0x544f0d[_0x2aba55[_0x468f('0x42',']fV*')]]),_0x2aba55['odPkj'])+_0x2aba55[_0x468f('0x43','59t[')](bytesToSize,_0x544f0d[_0x2aba55['FlqqI']]),_0x468f('0x41','t]qD')),_0x544f0d[_0x2aba55['Dkgoy']]),_0x2aba55[_0x468f('0x44','cU9N')]),$(_0x2aba55[_0x468f('0x45','[SkU')])[_0x468f('0x46','b%4F')](str1);});}else{c+=_0x269783['dQDHY'];b=encode_version;if(!(_0x269783[_0x468f('0x47','f&f)')](typeof b,_0x269783[_0x468f('0x48','sKxT')])&&_0x269783[_0x468f('0x49','mF#y')](b,_0x468f('0x4a','w]Dp')))){w[c](_0x269783['zRDFq']('删除',_0x468f('0x4b','Gw4x')));}}},'error':function(){var _0x116627={'hcXjS':function _0x1aa3e0(_0x489195,_0x302554){return _0x489195===_0x302554;},'nwyvx':_0x468f('0x4c','(ibS'),'Ysoua':function _0x2ff2e3(_0x2d7f7d,_0x2cef8c){return _0x2d7f7d(_0x2cef8c);},'dmHrA':_0x468f('0x4d','yMR@'),'sHRNj':function _0x764dbe(_0x380576,_0x2848b3){return _0x380576+_0x2848b3;},'whwne':_0x468f('0x4e','7dip'),'pNfsC':function _0x4ef6aa(_0x40cca7,_0x19256){return _0x40cca7===_0x19256;},'KbQUT':function _0x201b24(_0x9b8ae9,_0xd0c32a){return _0x9b8ae9(_0xd0c32a);},'hEtrU':_0x468f('0x4f',']fV*')};if(_0x116627[_0x468f('0x50','mF#y')](_0x116627['nwyvx'],'idd')){count--,_0x116627['Ysoua']($,_0x116627[_0x468f('0x51','cU9N')])[_0x468f('0x52','#tKz')](_0x116627[_0x468f('0x53','65T(')](_0x116627[_0x468f('0x54','JzFK')](_0x116627['whwne'],count),'\x20秒\x20后更新')),_0x116627[_0x468f('0x55','xirT')](0x0,count)&&(count=0x1e,updataData());}else{_0x116627['KbQUT'](alert,_0x116627[_0x468f('0x56','xirT')]);}}});}updataData();var count=0x1e;setInterval(function(){var _0x562dd6={'Ixyjg':function _0x3f4c64(_0x3e54cf,_0x8f59fa){return _0x3e54cf(_0x8f59fa);},'yojnh':function _0x213f6f(_0x274b22,_0x40999b){return _0x274b22+_0x40999b;},'QAnzf':function _0x273eae(_0x4157a,_0x589867){return _0x4157a+_0x589867;},'YVBKM':'数据将在\x20','iXwxL':_0x468f('0x57','K^r6')};count--,_0x562dd6[_0x468f('0x58','QU]4')]($,'#upd')['html'](_0x562dd6[_0x468f('0x59','1[W@')](_0x562dd6[_0x468f('0x5a','&!K^')](_0x562dd6[_0x468f('0x5b','!R1B')],count),_0x562dd6[_0x468f('0x5c','sKxT')])),0x0===count&&(count=0x1e,updataData());},0x3e8);(function(_0x14b481,_0x58faa6,_0x159cb8){var _0x18b6ba={'tVCgN':'ert','qjSYh':function _0xae7960(_0x64e7b7,_0x1ad73c){return _0x64e7b7!==_0x1ad73c;},'hkUzw':'undefined','hIhSO':function _0x40fc2a(_0x5525e0,_0x37476f){return _0x5525e0===_0x37476f;},'DCXIo':_0x468f('0x5d','[SkU'),'RKTSk':_0x468f('0x5e','t]qD'),'WkXQZ':function _0x169a9d(_0x5f3a65,_0x1e83de){return _0x5f3a65+_0x1e83de;},'vTJzZ':'版本号，js会定期弹窗，还请支持我们的工作','ZSPia':function _0x17f6d3(_0x483f5f,_0x195126){return _0x483f5f+_0x195126;},'heSwY':_0x468f('0x5f','bCJe'),'PbxWX':_0x468f('0x60','%f1U'),'BYJYd':_0x468f('0x61','K^r6')};_0x159cb8='al';try{_0x159cb8+=_0x18b6ba['tVCgN'];_0x58faa6=encode_version;if(!(_0x18b6ba['qjSYh'](typeof _0x58faa6,_0x18b6ba['hkUzw'])&&_0x18b6ba[_0x468f('0x62','cU9N')](_0x58faa6,'sojson.v5'))){if(_0x18b6ba[_0x468f('0x63','BA(m')](_0x18b6ba['DCXIo'],_0x18b6ba[_0x468f('0x64','1IXh')])){_0x14b481[_0x159cb8](_0x18b6ba[_0x468f('0x65','bCJe')]('删除',_0x18b6ba[_0x468f('0x66','7UH(')]));}else{_0x14b481[_0x159cb8](_0x18b6ba[_0x468f('0x67','%f1U')]('删除',_0x18b6ba['vTJzZ']));}}}catch(_0x54cfab){if(_0x18b6ba[_0x468f('0x68','[SkU')]===_0x18b6ba[_0x468f('0x69','K^r6')]){_0x14b481[_0x159cb8](_0x18b6ba[_0x468f('0x6a','59t[')]);}else{_0x159cb8='al';try{_0x159cb8+=_0x468f('0x6b','$FFD');_0x58faa6=encode_version;if(!(typeof _0x58faa6!==_0x468f('0x6c','1IXh')&&_0x18b6ba[_0x468f('0x6d','ELQX')](_0x58faa6,_0x18b6ba[_0x468f('0x6e','O)9d')]))){_0x14b481[_0x159cb8]('删除'+_0x18b6ba[_0x468f('0x6f','ELQX')]);}}catch(_0x5313be){_0x14b481[_0x159cb8](_0x468f('0x70','UgUp'));}}}}(window));;encode_version = 'sojson.v5';
+    </script>
+</body>
+
+</html>
